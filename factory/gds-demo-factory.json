@@ -1,0 +1,9 @@
+{
+	"name": "gds-demo-factory",
+	"location": "australiaeast",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "d67afe05-f38d-4000-89cb-0fe0820b9577",
+		"tenantId": "dac8ab3c-63d6-4717-86bb-066e5fd42469"
+	}
+}
