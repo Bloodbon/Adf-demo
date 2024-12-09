@@ -14,11 +14,20 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "BadRecords",
+					"description": "ConditionallyDistributingDataInCheck_out_date"
+				}
+			],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     format: 'document') ~> bookingdata"
+				"     enableChangeFeed: true,",
+				"     changeFeedStartFromTheBeginning: false,",
+				"     format: 'document') ~> bookingdata",
+				"bookingdata split(check_out_date<check_in_date,",
+				"     disjoint: false) ~> BadRecords@(Badrecords, AcceptedRecords)"
 			]
 		}
 	}
