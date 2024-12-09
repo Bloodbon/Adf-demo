@@ -1,0 +1,25 @@
+{
+	"name": "BookingdataTrasformation",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "CosmosDbNoSql",
+						"type": "DatasetReference"
+					},
+					"name": "bookingdata",
+					"description": "ImportBookingDataFromCosmos"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'document') ~> bookingdata"
+			]
+		}
+	}
+}
