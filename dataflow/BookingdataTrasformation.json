@@ -14,7 +14,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "bookingFactSynapse",
+						"referenceName": "bookingfactsynapse",
 						"type": "DatasetReference"
 					},
 					"name": "lookupForSynapse",
