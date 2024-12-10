@@ -91,25 +91,11 @@
 									},
 									"sqlWriterUseTableLock": false
 								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
-								}
+								"enableStaging": false
 							},
 							"inputs": [
 								{
 									"referenceName": "airbnbrawdata",
-									"type": "DatasetReference"
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "customerdimTableSynapse",
 									"type": "DatasetReference"
 								}
 							]
