@@ -68,7 +68,7 @@
 					"server": "[parameters('AzureSynapseAnalytics1_properties_typeProperties_server')]",
 					"database": "[parameters('AzureSynapseAnalytics1_properties_typeProperties_database')]",
 					"encrypt": "mandatory",
-					"trustServerCertificate": true,
+					"trustServerCertificate": false,
 					"authenticationType": "SQL",
 					"userName": "[parameters('AzureSynapseAnalytics1_properties_typeProperties_userName')]",
 					"password": {
@@ -191,197 +191,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/bookingfactsynapse')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSynapseAnalytics1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlDWTable",
-				"schema": [
-					{
-						"name": "booking_id",
-						"type": "nvarchar"
-					},
-					{
-						"name": "property_id",
-						"type": "nvarchar"
-					},
-					{
-						"name": "customer_id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "owner_id",
-						"type": "nvarchar"
-					},
-					{
-						"name": "check_in_date",
-						"type": "date"
-					},
-					{
-						"name": "check_out_date",
-						"type": "date"
-					},
-					{
-						"name": "booking_date",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "amount",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "currency",
-						"type": "nvarchar"
-					},
-					{
-						"name": "city",
-						"type": "nvarchar"
-					},
-					{
-						"name": "country",
-						"type": "nvarchar"
-					},
-					{
-						"name": "full_address",
-						"type": "nvarchar"
-					},
-					{
-						"name": "stay_duration",
-						"type": "bigint",
-						"precision": 19
-					},
-					{
-						"name": "booking_year",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "booking_month",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "timestamp",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					}
-				],
-				"typeProperties": {
-					"schema": "airbnb",
-					"table": "bookings_fact"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSynapseAnalytics1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/customerdimTableSynapse')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSynapseAnalytics1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlDWTable",
-				"schema": [
-					{
-						"name": "customer_id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "first_name",
-						"type": "nvarchar"
-					},
-					{
-						"name": "last_name",
-						"type": "nvarchar"
-					},
-					{
-						"name": "email",
-						"type": "nvarchar"
-					},
-					{
-						"name": "phone_number",
-						"type": "nvarchar"
-					},
-					{
-						"name": "address",
-						"type": "nvarchar"
-					},
-					{
-						"name": "city",
-						"type": "nvarchar"
-					},
-					{
-						"name": "state",
-						"type": "nvarchar"
-					},
-					{
-						"name": "country",
-						"type": "nvarchar"
-					},
-					{
-						"name": "zip_code",
-						"type": "nvarchar"
-					},
-					{
-						"name": "signup_date",
-						"type": "date"
-					},
-					{
-						"name": "last_login",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "total_bookings",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "total_spent",
-						"type": "decimal",
-						"precision": 10,
-						"scale": 2
-					},
-					{
-						"name": "preferred_language",
-						"type": "nvarchar"
-					},
-					{
-						"name": "referral_code",
-						"type": "nvarchar"
-					},
-					{
-						"name": "account_status",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "airbnb",
-					"table": "customer_dim"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSynapseAnalytics1')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/customer_dim')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -467,25 +276,10 @@
 											}
 										},
 										"sink": {
-											"type": "SqlDWSink",
-											"writeBehavior": "Upsert",
-											"upsertSettings": {
-												"keys": [
-													"customer_id"
-												],
-												"interimSchemaName": ""
-											},
-											"sqlWriterUseTableLock": false
+											"type": "CosmosDbSqlApiSink",
+											"writeBehavior": "insert"
 										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
-											}
-										}
+										"enableStaging": false
 									},
 									"inputs": [
 										{
@@ -496,7 +290,7 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "customerdimTableSynapse",
+											"referenceName": "CosmosDbNoSql",
 											"type": "DatasetReference",
 											"parameters": {}
 										}
@@ -627,7 +421,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/airbnbrawdata')]",
-				"[concat(variables('factoryId'), '/datasets/customerdimTableSynapse')]",
+				"[concat(variables('factoryId'), '/datasets/CosmosDbNoSql')]",
 				"[concat(variables('factoryId'), '/datasets/airbnbarchivedata')]"
 			]
 		}
