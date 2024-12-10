@@ -81,21 +81,20 @@
 									}
 								},
 								"sink": {
-									"type": "SqlDWSink",
-									"writeBehavior": "Upsert",
-									"upsertSettings": {
-										"keys": [
-											"customer_id"
-										],
-										"interimSchemaName": ""
-									},
-									"sqlWriterUseTableLock": false
+									"type": "CosmosDbSqlApiSink",
+									"writeBehavior": "insert"
 								},
 								"enableStaging": false
 							},
 							"inputs": [
 								{
 									"referenceName": "airbnbrawdata",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "CosmosDbNoSql",
 									"type": "DatasetReference"
 								}
 							]
