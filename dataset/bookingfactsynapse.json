@@ -1,10 +1,6 @@
 {
 	"name": "bookingfactsynapse",
 	"properties": {
-		"linkedServiceName": {
-			"referenceName": "AzureSynapseAnalytics",
-			"type": "LinkedServiceReference"
-		},
 		"annotations": [],
 		"type": "AzureSqlDWTable",
 		"schema": [
