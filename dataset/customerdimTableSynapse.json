@@ -2,7 +2,7 @@
 	"name": "customerdimTableSynapse",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureSynapseAnalytics",
+			"referenceName": "AzureSynapseAnalytics1",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
