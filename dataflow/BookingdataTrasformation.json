@@ -14,7 +14,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "bookingfact_synapse",
+						"referenceName": "bookingFactSynapse",
 						"type": "DatasetReference"
 					},
 					"name": "lookupForSynapse",
@@ -94,9 +94,10 @@
 				"          property_id = property_id,",
 				"          amount = amount,",
 				"          currency = currency) ~> DerivedColumn",
-				"DerivedColumn lookup(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"DerivedColumn, lookupForSynapse lookup(DerivedColumn@booking_id == lookupForSynapse@booking_id,",
 				"     multiple: false,",
-				"     pickup: 'any',",
+				"     pickup: 'first',",
+				"     desc(lookupForSynapse@timestamp, true),",
 				"     broadcast: 'auto')~> lookupSynapse"
 			]
 		}
