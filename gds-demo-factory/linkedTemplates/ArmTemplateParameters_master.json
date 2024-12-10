@@ -5,14 +5,26 @@
 		"factoryName": {
 			"value": "gds-demo-factory"
 		},
-		"AzureDataLakeStorage1_accountKey": {
+		"AzureSynapseAnalytics1_password": {
+			"value": ""
+		},
+		"CosmosDbNoSql_connectionString": {
 			"value": ""
 		},
 		"Snowflaketemp_password": {
 			"value": ""
 		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
-			"value": "https://gdsaccounton.dfs.core.windows.net/"
+			"value": "https://airbnbpro.dfs.core.windows.net/"
+		},
+		"AzureSynapseAnalytics1_properties_typeProperties_server": {
+			"value": "awhs.sql.azuresynapse.net"
+		},
+		"AzureSynapseAnalytics1_properties_typeProperties_database": {
+			"value": "airbnb"
+		},
+		"AzureSynapseAnalytics1_properties_typeProperties_userName": {
+			"value": "sqladminuser"
 		},
 		"Snowflaketemp_properties_typeProperties_database": {
 			"value": "sales_mart"

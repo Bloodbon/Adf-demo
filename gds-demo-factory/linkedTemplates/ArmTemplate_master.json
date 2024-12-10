@@ -7,9 +7,13 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "gds-demo-factory"
 		},
-		"AzureDataLakeStorage1_accountKey": {
+		"AzureSynapseAnalytics1_password": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
+			"metadata": "Secure string for 'password' of 'AzureSynapseAnalytics1'"
+		},
+		"CosmosDbNoSql_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'CosmosDbNoSql'"
 		},
 		"Snowflaketemp_password": {
 			"type": "secureString",
@@ -17,7 +21,19 @@
 		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://gdsaccounton.dfs.core.windows.net/"
+			"defaultValue": "https://airbnbpro.dfs.core.windows.net/"
+		},
+		"AzureSynapseAnalytics1_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "awhs.sql.azuresynapse.net"
+		},
+		"AzureSynapseAnalytics1_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "airbnb"
+		},
+		"AzureSynapseAnalytics1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sqladminuser"
 		},
 		"Snowflaketemp_properties_typeProperties_database": {
 			"type": "string",
@@ -50,14 +66,26 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"AzureDataLakeStorage1_accountKey": {
-						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					"AzureSynapseAnalytics1_password": {
+						"value": "[parameters('AzureSynapseAnalytics1_password')]"
+					},
+					"CosmosDbNoSql_connectionString": {
+						"value": "[parameters('CosmosDbNoSql_connectionString')]"
 					},
 					"Snowflaketemp_password": {
 						"value": "[parameters('Snowflaketemp_password')]"
 					},
 					"AzureDataLakeStorage1_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
+					},
+					"AzureSynapseAnalytics1_properties_typeProperties_server": {
+						"value": "[parameters('AzureSynapseAnalytics1_properties_typeProperties_server')]"
+					},
+					"AzureSynapseAnalytics1_properties_typeProperties_database": {
+						"value": "[parameters('AzureSynapseAnalytics1_properties_typeProperties_database')]"
+					},
+					"AzureSynapseAnalytics1_properties_typeProperties_userName": {
+						"value": "[parameters('AzureSynapseAnalytics1_properties_typeProperties_userName')]"
 					},
 					"Snowflaketemp_properties_typeProperties_database": {
 						"value": "[parameters('Snowflaketemp_properties_typeProperties_database')]"
