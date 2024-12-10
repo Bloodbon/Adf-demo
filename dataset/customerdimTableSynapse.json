@@ -1,6 +1,10 @@
 {
 	"name": "customerdimTableSynapse",
 	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSynapseAnalytics",
+			"type": "LinkedServiceReference"
+		},
 		"annotations": [],
 		"type": "AzureSqlDWTable",
 		"schema": [
@@ -78,6 +82,10 @@
 				"name": "account_status",
 				"type": "nvarchar"
 			}
-		]
+		],
+		"typeProperties": {
+			"schema": "airbnb",
+			"table": "customer_dim"
+		}
 	}
 }
