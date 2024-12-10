@@ -33,6 +33,10 @@
 				{
 					"name": "lookupSynapse",
 					"description": "lookup on \"DeriverColumn\"  from \"synapseforColumns\""
+				},
+				{
+					"name": "alterRow1",
+					"description": "inserting,updating,deleting,upserting data\nfrom lookupforsynapse@booking_id"
 				}
 			],
 			"scriptLines": [
@@ -98,7 +102,9 @@
 				"     multiple: false,",
 				"     pickup: 'first',",
 				"     desc(lookupForSynapse@timestamp, true),",
-				"     broadcast: 'auto')~> lookupSynapse"
+				"     broadcast: 'auto')~> lookupSynapse",
+				"lookupSynapse alterRow(insertIf(isNull(lookupForSynapse@booking_id)),",
+				"     updateIf(not(isNull(lookupForSynapse@booking_id)))) ~> alterRow1"
 			]
 		}
 	}
