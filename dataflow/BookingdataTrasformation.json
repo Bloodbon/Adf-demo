@@ -21,7 +21,20 @@
 					"description": "importdatafromBookingFactSynapse"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "bookingfactsynapse",
+						"type": "DatasetReference"
+					},
+					"name": "synapseFactWrIte",
+					"description": "ExportdatatoBookingFactdataSynapse",
+					"rejectedDataLinkedService": {
+						"referenceName": "AzureDataLakeStorage1",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
 			"transformations": [
 				{
 					"name": "BadRecords",
@@ -35,8 +48,11 @@
 					"description": "lookup on \"DeriverColumn\"  from \"synapseforColumns\""
 				},
 				{
-					"name": "alterRow1",
+					"name": "alterRowforUpdate",
 					"description": "inserting,updating,deleting,upserting data\nfrom lookupforsynapse@booking_id"
+				},
+				{
+					"name": "Finalcolumn"
 				}
 			],
 			"scriptLines": [
@@ -104,7 +120,75 @@
 				"     desc(lookupForSynapse@timestamp, true),",
 				"     broadcast: 'auto')~> lookupSynapse",
 				"lookupSynapse alterRow(insertIf(isNull(lookupForSynapse@booking_id)),",
-				"     updateIf(not(isNull(lookupForSynapse@booking_id)))) ~> alterRow1"
+				"     updateIf(not(isNull(lookupForSynapse@booking_id)))) ~> alterRowforUpdate",
+				"alterRowforUpdate select(mapColumn(",
+				"          check_out_date = DerivedColumn@check_out_date,",
+				"          customer_id = DerivedColumn@customer_id,",
+				"          timestamp = DerivedColumn@timestamp,",
+				"          owner_id = DerivedColumn@owner_id,",
+				"          check_in_date = DerivedColumn@check_in_date,",
+				"          property_id = DerivedColumn@property_id,",
+				"          amount = DerivedColumn@amount,",
+				"          booking_id = DerivedColumn@booking_id,",
+				"          currency = DerivedColumn@currency,",
+				"          property_location,",
+				"          booking_date = BadRecords@AcceptedRecords@booking_date,",
+				"          stay_duration = DerivedColumn@stay_duration,",
+				"          booking_year = DerivedColumn@booking_year,",
+				"          booking_month = DerivedColumn@booking_month,",
+				"          fulladress,",
+				"          city = DerivedColumn@city,",
+				"          country = DerivedColumn@country,",
+				"          booking_id = lookupForSynapse@booking_id,",
+				"          property_id = lookupForSynapse@property_id,",
+				"          customer_id = lookupForSynapse@customer_id,",
+				"          owner_id = lookupForSynapse@owner_id,",
+				"          check_in_date = lookupForSynapse@check_in_date,",
+				"          check_out_date = lookupForSynapse@check_out_date,",
+				"          booking_date = lookupForSynapse@booking_date,",
+				"          amount = lookupForSynapse@amount,",
+				"          currency = lookupForSynapse@currency,",
+				"          city = lookupForSynapse@city,",
+				"          country = lookupForSynapse@country,",
+				"          full_address,",
+				"          stay_duration = lookupForSynapse@stay_duration,",
+				"          booking_year = lookupForSynapse@booking_year,",
+				"          booking_month = lookupForSynapse@booking_month,",
+				"          timestamp = lookupForSynapse@timestamp",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Finalcolumn",
+				"Finalcolumn sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          booking_id as string,",
+				"          property_id as string,",
+				"          customer_id as integer,",
+				"          owner_id as string,",
+				"          check_in_date as date,",
+				"          check_out_date as date,",
+				"          booking_date as timestamp,",
+				"          amount as double,",
+				"          currency as string,",
+				"          city as string,",
+				"          country as string,",
+				"          full_address as string,",
+				"          stay_duration as long,",
+				"          booking_year as integer,",
+				"          booking_month as integer,",
+				"          timestamp as timestamp",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:true,",
+				"     upsertable:false,",
+				"     keys:[(booking_id)],",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> synapseFactWrIte"
 			]
 		}
 	}
